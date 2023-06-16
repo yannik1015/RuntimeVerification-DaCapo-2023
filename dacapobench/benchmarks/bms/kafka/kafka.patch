@@ -1,0 +1,560 @@
+diff '--color=auto' -ur ./kafka-3.3.1-src/config/log4j.properties ../build/kafka-3.3.1-src/config/log4j.properties
+--- ./kafka-3.3.1-src/config/log4j.properties	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/config/log4j.properties	2022-09-27 03:20:01.952137596 +0000
+@@ -14,8 +14,8 @@
+ # limitations under the License.
+ 
+ # Unspecified loggers and loggers with additivity=true output to server.log and stdout
+-# Note that INFO only applies to unspecified loggers, the log level of the child logger is used otherwise
+-log4j.rootLogger=INFO, stdout, kafkaAppender
++# Note that ERROR only applies to unspecified loggers, the log level of the child logger is used otherwise
++log4j.rootLogger=ERROR, stdout, kafkaAppender
+ 
+ log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+ log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+@@ -58,34 +58,34 @@
+ log4j.appender.authorizerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+ 
+ # Change the line below to adjust ZK client logging
+-log4j.logger.org.apache.zookeeper=INFO
++log4j.logger.org.apache.zookeeper=ERROR
+ 
+ # Change the two lines below to adjust the general broker logging level (output to server.log and stdout)
+-log4j.logger.kafka=INFO
+-log4j.logger.org.apache.kafka=INFO
++log4j.logger.kafka=ERROR
++log4j.logger.org.apache.kafka=ERROR
+ 
+-# Change to DEBUG or TRACE to enable request logging
+-log4j.logger.kafka.request.logger=WARN, requestAppender
++# Change to DEBUG or ERROR to enable request logging
++log4j.logger.kafka.request.logger=ERROR, requestAppender
+ log4j.additivity.kafka.request.logger=false
+ 
+-# Uncomment the lines below and change log4j.logger.kafka.network.RequestChannel$ to TRACE for additional output
++# Uncomment the lines below and change log4j.logger.kafka.network.RequestChannel$ to ERROR for additional output
+ # related to the handling of requests
+-#log4j.logger.kafka.network.Processor=TRACE, requestAppender
+-#log4j.logger.kafka.server.KafkaApis=TRACE, requestAppender
++#log4j.logger.kafka.network.Processor=ERROR, requestAppender
++#log4j.logger.kafka.server.KafkaApis=ERROR, requestAppender
+ #log4j.additivity.kafka.server.KafkaApis=false
+-log4j.logger.kafka.network.RequestChannel$=WARN, requestAppender
++log4j.logger.kafka.network.RequestChannel$=ERROR, requestAppender
+ log4j.additivity.kafka.network.RequestChannel$=false
+ 
+-log4j.logger.kafka.controller=TRACE, controllerAppender
++log4j.logger.kafka.controller=ERROR, controllerAppender
+ log4j.additivity.kafka.controller=false
+ 
+-log4j.logger.kafka.log.LogCleaner=INFO, cleanerAppender
++log4j.logger.kafka.log.LogCleaner=ERROR, cleanerAppender
+ log4j.additivity.kafka.log.LogCleaner=false
+ 
+-log4j.logger.state.change.logger=INFO, stateChangeAppender
++log4j.logger.state.change.logger=ERROR, stateChangeAppender
+ log4j.additivity.state.change.logger=false
+ 
+-# Access denials are logged at INFO level, change to DEBUG to also log allowed accesses
+-log4j.logger.kafka.authorizer.logger=INFO, authorizerAppender
++# Access denials are logged at ERROR level, change to DEBUG to also log allowed accesses
++log4j.logger.kafka.authorizer.logger=ERROR, authorizerAppender
+ log4j.additivity.kafka.authorizer.logger=false
+ 
+diff '--color=auto' -ur ./kafka-3.3.1-src/config/server.properties ../build/kafka-3.3.1-src/config/server.properties
+--- ./kafka-3.3.1-src/config/server.properties	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/config/server.properties	2022-09-27 03:20:01.952137596 +0000
+@@ -59,7 +59,7 @@
+ ############################# Log Basics #############################
+ 
+ # A comma separated list of directories under which to store log files
+-log.dirs=/tmp/kafka-logs
++log.dirs=scratch/kafka-logs
+ 
+ # The default number of log partitions per topic. More partitions allow greater
+ # parallelism for consumption, but this will also result in more files across
+diff '--color=auto' -ur ./kafka-3.3.1-src/config/tools-log4j.properties ../build/kafka-3.3.1-src/config/tools-log4j.properties
+--- ./kafka-3.3.1-src/config/tools-log4j.properties	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/config/tools-log4j.properties	2022-09-27 03:20:01.956137594 +0000
+@@ -13,7 +13,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-log4j.rootLogger=WARN, stderr
++log4j.rootLogger=ERROR, stderr
+ 
+ log4j.appender.stderr=org.apache.log4j.ConsoleAppender
+ log4j.appender.stderr.layout=org.apache.log4j.PatternLayout
+diff '--color=auto' -ur ./kafka-3.3.1-src/config/zookeeper.properties ../build/kafka-3.3.1-src/config/zookeeper.properties
+--- ./kafka-3.3.1-src/config/zookeeper.properties	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/config/zookeeper.properties	2022-09-27 03:20:01.956137594 +0000
+@@ -13,7 +13,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # the directory where the snapshot is stored.
+-dataDir=/tmp/zookeeper
++dataDir=./scratch/zookeeper
+ # the port at which the clients will connect
+ clientPort=2181
+ # disable the per-ip limit on the number of connections since this is a non-production config
+diff '--color=auto' -ur ./kafka-3.3.1-src/core/src/main/scala/kafka/server/BrokerMetadataCheckpoint.scala ../build/kafka-3.3.1-src/core/src/main/scala/kafka/server/BrokerMetadataCheckpoint.scala
+--- ./kafka-3.3.1-src/core/src/main/scala/kafka/server/BrokerMetadataCheckpoint.scala	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/core/src/main/scala/kafka/server/BrokerMetadataCheckpoint.scala	2022-09-27 03:20:01.956137594 +0000
+@@ -236,7 +236,7 @@
+         Some(Utils.loadProps(absolutePath))
+       } catch {
+         case _: NoSuchFileException =>
+-          warn(s"No meta.properties file under dir $absolutePath")
++          // warn(s"No meta.properties file under dir $absolutePath")
+           None
+         case e: Exception =>
+           error(s"Failed to read meta.properties file under dir $absolutePath", e)
+diff '--color=auto' -ur ./kafka-3.3.1-src/tests/spec/simple_produce_bench.json ../build/kafka-3.3.1-src/tests/spec/simple_produce_bench.json
+--- ./kafka-3.3.1-src/tests/spec/simple_produce_bench.json	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/tests/spec/simple_produce_bench.json	2022-09-27 03:20:01.956137594 +0000
+@@ -23,8 +23,8 @@
+   "durationMs": 10000000,
+   "producerNode": "node0",
+   "bootstrapServers": "localhost:9092",
+-  "targetMessagesPerSec": 10000,
+-  "maxMessages": 50000,
++  "targetMessagesPerSec": 200000,
++  "maxMessages": 1000000,
+   "activeTopics": {
+     "foo[1-3]": {
+       "numPartitions": 10,
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/agent/Agent.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/agent/Agent.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/agent/Agent.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/agent/Agent.java	2022-09-27 03:20:01.956137594 +0000
+@@ -250,7 +250,7 @@
+         final Agent agent = new Agent(platform, Scheduler.SYSTEM, restServer, resource);
+         restServer.start(resource);
+         Exit.addShutdownHook("agent-shutdown-hook", () -> {
+-            log.warn("Running agent shutdown hook.");
++            // log.warn("Running agent shutdown hook.");
+             try {
+                 agent.beginShutdown();
+                 agent.waitForShutdown();
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorClient.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorClient.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorClient.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorClient.java	2022-09-27 03:20:01.956137594 +0000
+@@ -195,6 +195,15 @@
+         return resp.body();
+     }
+ 
++    private TaskState waitFinish(TaskRequest request) throws Exception{
++        String uri = UriBuilder.fromPath(url("/coordinator/wait/{taskId}")).build(request.taskId()).toString();
++        HttpResponse<TaskState> resp = JsonRestServer.httpRequest(log, uri, "GET",
++        null, new TypeReference<TaskState>() { }, maxTries);
++        return resp.body();
++    }
++
++
++
+     public void shutdown() throws Exception {
+         HttpResponse<Empty> resp =
+             JsonRestServer.httpRequest(log, url("/coordinator/shutdown"), "PUT",
+@@ -238,6 +247,20 @@
+             .help("Show a coordinator task.");
+         addTargetArgument(showTaskParser);
+         addJsonArgument(showTaskParser);
++
++
++        Subparser waitTaskParser = subParsers.addParser("waitTask")
++                .help("Show a coordinator task.");
++        addTargetArgument(waitTaskParser);
++        waitTaskParser.addArgument("--id", "-i")
++                .action(store())
++                .required(true)
++                .type(String.class)
++                .dest("taskId")
++                .metavar("TASK_ID")
++                .help("The task ID to wait.");
++
++
+         showTaskParser.addArgument("--id", "-i")
+             .action(store())
+             .required(true)
+@@ -382,8 +405,17 @@
+                     }
+                 }
+                 break;
+-            }
+-            case "showTasks": {
++            }case "waitTask": {
++                String taskId = res.getString("taskId");
++                TaskRequest req = new TaskRequest(taskId);
++                try {
++                    client.waitFinish(req);
++                } catch (NotFoundException e) {
++                    System.out.printf("Task %s was not found.%n", taskId);
++                    Exit.exit(1);
++                }
++                break;
++            }case "showTasks": {
+                 TaskStateType taskStateType = res.<TaskStateType>get("taskStateType");
+                 List<String> taskIds = new ArrayList<>();
+                 Pattern taskIdPattern = null;
+@@ -429,7 +461,6 @@
+                 CreateTaskRequest req = new CreateTaskRequest(taskId, taskSpec);
+                 try {
+                     client.createTask(req);
+-                    System.out.printf("Sent CreateTaskRequest for task %s.%n", req.id());
+                 } catch (RequestConflictException rce) {
+                     System.out.printf("CreateTaskRequest for task %s got a 409 status code - " +
+                         "a task with the same ID but a different specification already exists.%nException: %s%n",
+@@ -449,7 +480,6 @@
+                 String taskId = res.getString("taskId");
+                 DestroyTaskRequest req = new DestroyTaskRequest(taskId);
+                 client.destroyTask(req);
+-                System.out.printf("Sent DestroyTaskRequest for task %s.%n", taskId);
+                 break;
+             }
+             case "shutdown": {
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/Coordinator.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/Coordinator.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/Coordinator.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/Coordinator.java	2022-09-27 03:20:01.956137594 +0000
+@@ -129,6 +129,10 @@
+         taskManager.waitForShutdown();
+     }
+ 
++    public TaskState waitForFinishing(TaskRequest request) throws Exception {
++        return taskManager.waitForFinishing(request);
++    }
++
+     public static void main(String[] args) throws Exception {
+         ArgumentParser parser = ArgumentParsers
+             .newArgumentParser("trogdor-coordinator")
+@@ -172,7 +176,7 @@
+             restServer, resource, ThreadLocalRandom.current().nextLong(0, Long.MAX_VALUE / 2));
+         restServer.start(resource);
+         Exit.addShutdownHook("coordinator-shutdown-hook", () -> {
+-            log.warn("Running coordinator shutdown hook.");
++            // log.warn("Running coordinator shutdown hook.");
+             try {
+                 coordinator.beginShutdown(false);
+                 coordinator.waitForShutdown();
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorRestResource.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorRestResource.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorRestResource.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/CoordinatorRestResource.java	2022-09-27 03:20:01.956137594 +0000
+@@ -137,6 +137,13 @@
+         return response;
+     }
+ 
++    @GET
++    @Path("/wait/{taskId}")
++    public TaskState wait(@PathParam("taskId") String taskId) throws Throwable {
++        return coordinator().waitForFinishing(new TaskRequest(taskId));
++    }
++
++
+     @PUT
+     @Path("/shutdown")
+     public Empty beginShutdown(CoordinatorShutdownRequest request) throws Throwable {
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/NodeManager.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/NodeManager.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/NodeManager.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/NodeManager.java	2022-09-27 03:20:01.956137594 +0000
+@@ -235,7 +235,7 @@
+                 if (worker == null) {
+                     // Identify tasks which are running, but which we don't know about.
+                     // Add these to the NodeManager as tasks that should not be running.
+-                    log.warn("{}: scheduling unknown worker with ID {} for stopping.", node.name(), workerId);
++                    // log.warn("{}: scheduling unknown worker with ID {} for stopping.", node.name(), workerId);
+                     workers.put(workerId, new ManagedWorker(workerId, state.taskId(),
+                         state.spec(), false, state));
+                 } else {
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/TaskManager.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/TaskManager.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/TaskManager.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/coordinator/TaskManager.java	2022-09-27 03:20:01.956137594 +0000
+@@ -49,6 +49,8 @@
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ 
++import java.util.concurrent.locks.Condition;
++import java.util.concurrent.locks.ReentrantLock;
+ import java.util.HashMap;
+ import java.util.Map;
+ import java.util.Set;
+@@ -203,6 +205,12 @@
+          */
+         private String error = "";
+ 
++        /**
++         * For managing the task state, blocking if is not finished
++         */
++        ReentrantLock rl;
++        Condition done;
++
+         ManagedTask(String id, TaskSpec originalSpec, TaskSpec spec,
+                     TaskController controller, TaskStateType state) {
+             this.id = id;
+@@ -210,6 +218,8 @@
+             this.spec = spec;
+             this.controller = controller;
+             this.state = state;
++            rl = new ReentrantLock();
++            done = rl.newCondition();
+         }
+ 
+         void clearStartFuture() {
+@@ -295,6 +305,19 @@
+             }
+             return activeWorkerIds;
+         }
++
++
++        void waitForFinish() {
++            try {
++                rl.lock();
++                for(;this.state != TaskStateType.DONE; )
++                    done.await();
++            } catch (InterruptedException e) {
++                e.printStackTrace();
++            } finally {
++                rl.unlock();
++            }
++        }
+     }
+ 
+     /**
+@@ -394,7 +417,10 @@
+             } catch (Exception e) {
+                 log.error("Unable to find nodes for task {}", task.id, e);
+                 task.doneMs = time.milliseconds();
++                task.rl.lock();
+                 task.state = TaskStateType.DONE;
++                task.done.signal();
++                task.rl.unlock();
+                 task.maybeSetError("Unable to find nodes for task: " + e.getMessage());
+                 return null;
+             }
+@@ -450,7 +476,10 @@
+                     task.cancelled = true;
+                     task.clearStartFuture();
+                     task.doneMs = time.milliseconds();
++                    task.rl.lock();
+                     task.state = TaskStateType.DONE;
++                    task.done.signal();
++                    task.rl.unlock();
+                     log.info("Stopped pending task {}.", id);
+                     break;
+                 case RUNNING:
+@@ -463,7 +492,10 @@
+                             log.info("Task {} is now complete with error: {}", id, task.error);
+                         }
+                         task.doneMs = time.milliseconds();
++                        task.rl.lock();
+                         task.state = TaskStateType.DONE;
++                        task.done.signal();
++                        task.rl.unlock();
+                     } else {
+                         for (Map.Entry<String, Long> entry : activeWorkerIds.entrySet()) {
+                             nodeManagers.get(entry.getKey()).stopWorker(entry.getValue());
+@@ -595,7 +627,10 @@
+         TreeMap<String, Long> activeWorkerIds = task.activeWorkerIds();
+         if (activeWorkerIds.isEmpty()) {
+             task.doneMs = time.milliseconds();
++            task.rl.lock();
+             task.state = TaskStateType.DONE;
++            task.done.signal();
++            task.rl.unlock();
+             log.info("{}: Task {} is now complete on {} with error: {}",
+                 nodeName, task.id, Utils.join(task.workerIds.keySet(), ", "),
+                 task.error.isEmpty() ? "(none)" : task.error);
+@@ -639,6 +674,18 @@
+     }
+ 
+     /**
++     * Blocking current thread until the current task state become DONE
++      * @param request
++     * @return which are supposed DONE, if it is not DONE, an exception should be throw
++     */
++    public TaskState waitForFinishing(TaskRequest request) throws Exception {
++        ManagedTask managedTask = tasks.get(request.taskId());
++        managedTask.waitForFinish();
++        if (managedTask.state != TaskStateType.DONE) throw new Exception();
++        return managedTask.taskState();
++    }
++
++    /**
+      * Get information about a single task being managed.
+      *
+      * Returns #{@code null} if the task does not exist
+diff '--color=auto' -ur ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/workload/ProduceBenchWorker.java ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/workload/ProduceBenchWorker.java
+--- ./kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/workload/ProduceBenchWorker.java	2022-09-13 08:12:22.000000000 +0000
++++ ../build/kafka-3.3.1-src/trogdor/src/main/java/org/apache/kafka/trogdor/workload/ProduceBenchWorker.java	2022-09-27 03:25:17.975933321 +0000
+@@ -55,6 +55,9 @@
+ import java.util.concurrent.atomic.AtomicBoolean;
+ import java.util.concurrent.atomic.AtomicLong;
+ 
++import java.lang.reflect.Method;
++import java.lang.reflect.InvocationTargetException;
++
+ public class ProduceBenchWorker implements TaskWorker {
+     private static final Logger log = LoggerFactory.getLogger(ProduceBenchWorker.class);
+     
+@@ -72,6 +75,14 @@
+ 
+     private KafkaFutureImpl<String> doneFuture;
+ 
++    Method dacapoStart;
++    Method dacapoEnd;
++    Method dacapoStarting;
++    Method dacapoFinished;
++    private int tx = 0;
++    private static int txCount = 0;
++    public static void setTxCount(int count) { txCount = count; }
++
+     public ProduceBenchWorker(String id, ProduceBenchSpec spec) {
+         this.id = id;
+         this.spec = spec;
+@@ -79,7 +90,19 @@
+ 
+     @Override
+     public void start(Platform platform, WorkerStatusTracker status,
+-                      KafkaFutureImpl<String> doneFuture) {
++        KafkaFutureImpl<String> doneFuture) {
++        try {
++            Class<?> clazz = Class.forName("org.dacapo.harness.LatencyReporter", true, ProduceBenchWorker.class.getClassLoader());
++            dacapoStart = clazz.getMethod("start", int.class);
++            dacapoEnd = clazz.getMethod("endIdx", int.class);
++            dacapoStarting = clazz.getMethod("requestsStarting");
++            dacapoFinished = clazz.getMethod("requestsFinished");
++        } catch (ClassNotFoundException e) {
++            System.err.println("Failed to access DaCapo latency reporter: "+e);
++        } catch (NoSuchMethodException e) {
++            System.err.println("Failed trying to create latency stats: "+e);
++        }
++        dacapoStarting();
+         if (!running.compareAndSet(false, true)) {
+             throw new IllegalStateException("ProducerBenchWorker is already running.");
+         }
+@@ -91,6 +114,28 @@
+         this.status = status;
+         this.doneFuture = doneFuture;
+         executor.submit(new Prepare());
++
++        
++    }
++
++    public void dacapoStarting() {
++        try {
++            dacapoStarting.invoke(null);
++        } catch (IllegalAccessException e) {
++            System.err.println("Failed to invoke DaCapo latency reporter requestsStarting(): "+e);
++        } catch (InvocationTargetException e) {
++            System.err.println("Failed to invoke DaCapo latency reporter requestsStarting(): "+e);
++        }
++    }
++
++    public void dacapoFinished() {
++        try {
++            dacapoFinished.invoke(null);
++        } catch (IllegalAccessException e) {
++            System.err.println("Failed to invoke DaCapo latency reporter requestsFinished(): "+e);
++        } catch (InvocationTargetException e) {
++            System.err.println("Failed to invoke DaCapo latency reporter requestsFinished(): "+e);
++        }
+     }
+ 
+     public class Prepare implements Runnable {
+@@ -131,23 +176,61 @@
+     private static class SendRecordsCallback implements Callback {
+         private final SendRecords sendRecords;
+         private final long startMs;
++        private long lastStart;
++        private Method dacapoEnd;
++        private Method dacapoStart;
++        private int idx;
+ 
+-        SendRecordsCallback(SendRecords sendRecords, long startMs) {
++        SendRecordsCallback(SendRecords sendRecords, long startMs, int idx, Method dacapoEnd,  Method dacapoStart) {
+             this.sendRecords = sendRecords;
+             this.startMs = startMs;
++            this.lastStart = System.nanoTime();
++            this.dacapoEnd = dacapoEnd;
++            this.dacapoStart = dacapoStart;
++            this.idx = dacapoStart();
+         }
+ 
+         @Override
+         public void onCompletion(RecordMetadata metadata, Exception exception) {
+             long now = Time.SYSTEM.milliseconds();
+             long durationMs = now - startMs;
++            long start = System.nanoTime();
++            dacapoEnd(idx);
+             sendRecords.recordDuration(durationMs);
++            lastStart = System.nanoTime();
+             if (exception != null) {
+                 log.error("SendRecordsCallback: error", exception);
+             }
+         }
++        public int dacapoStart() {
++            int rtn = 0;
++            try {
++                rtn = (Integer) dacapoStart.invoke(null, 0);
++            } catch (IllegalAccessException e) {
++                System.err.println("Failed to invoke DaCapo latency reporter start(): "+e);
++                e.printStackTrace();
++            } catch (InvocationTargetException e) {
++                System.err.println("Failed to invoke DaCapo latency reporter start(): "+e);
++                e.printStackTrace();
++            }
++            return rtn;
++        }
++
++        public void dacapoEnd(int idx) {
++            try {
++                dacapoEnd.invoke(null, idx);
++            } catch (IllegalAccessException e) {
++                System.err.println("Failed to invoke DaCapo latency reporter end(): "+e);
++                e.printStackTrace();
++            } catch (InvocationTargetException e) {
++                System.err.println("Failed to invoke DaCapo latency reporter end(): "+e);
++                e.printStackTrace();
++            }
++        }
+     }
+ 
++
++
+     /**
+      * A subclass of Throttle which flushes the Producer right before the throttle injects a delay.
+      * This avoids including throttling latency in latency measurements.
+@@ -293,6 +376,7 @@
+         }
+ 
+         private void sendMessage() throws InterruptedException {
++            int idx = 0;// dacapoStart();
+             if (!partitionsIterator.hasNext())
+                 partitionsIterator = activePartitions.iterator();
+ 
+@@ -306,11 +390,18 @@
+                     partition.topic(), partition.partition(), keys.next(), values.next());
+             }
+             sendFuture = producer.send(record,
+-                new SendRecordsCallback(this, Time.SYSTEM.milliseconds()));
++                new SendRecordsCallback(this, Time.SYSTEM.milliseconds(), idx,dacapoEnd, dacapoStart));
+             throttle.increment();
+         }
+ 
+         void recordDuration(long durationMs) {
++            tx++;
++            int fivePercent = txCount / 20;
++            if (tx % fivePercent == 0) {
++                System.out.print("\r"+(5* tx / fivePercent)+"%");
++                if (tx == txCount)
++                    System.out.println();
++            }
+             histogram.add(durationMs);
+         }
+     }
+@@ -407,6 +498,8 @@
+ 
+     @Override
+     public void stop(Platform platform) throws Exception {
++        dacapoFinished();
++
+         if (!running.compareAndSet(true, false)) {
+             throw new IllegalStateException("ProduceBenchWorker is not running.");
+         }

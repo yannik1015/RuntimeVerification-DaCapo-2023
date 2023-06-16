@@ -1,0 +1,34 @@
+benchmark pmd
+  class org.dacapo.harness.Pmd
+  thread-model single
+  jars "asm-7.1.jar", "commons-io-2.6.jar", "commons-lang3-3.8.1.jar", "jcommander-1.72.jar", "pmd-core-6.13.0.jar", "pmd-java-6.13.0.jar", "saxon-9.1.0.8-dom.jar", "saxon-9.1.0.8.jar", "xercesImpl.jar", "xml-apis.jar";
+
+size small args "-d", "${DATA}/pmd/pmd-core/src/main/java/net/sourceforge/pmd/cli", "-f", "text", "-language", "java",
+								"-shortnames", "-failOnViolation", "false", "-rulesets", "java-comments", "-r", "${SCRATCH}/pmd-report.txt"
+  output 
+    stdout digest 0xda39a3ee5e6b4b0d3255bfef95601890afd80709,
+    "pmd-report.txt" digest(text) 0x175491e4a7bd736654181c23cc9740248e3ac87f;
+
+size default args "-d", "${DATA}/pmd/pmd-core", "-f", "text", "-language", "java",
+								"-shortnames", "-failOnViolation", "false", "-rulesets",
+								"java-basic,java-braces,java-clone,java-codesize,java-comments,java-controversial,java-design,java-empty,java-finalizers,java-imports,java-naming,java-optimizations", "-r", "${SCRATCH}/pmd-report.txt"
+  output 
+    stdout digest 0xda39a3ee5e6b4b0d3255bfef95601890afd80709,
+    "pmd-report.txt" digest(text) 0x140ecf048da0129dbbc47d518f0e59a5b5996c0d;
+
+size large args "-d", "${DATA}/pmd/eclipse", "-f", "text", "-language", "java",
+								"-shortnames", "-failOnViolation", "false", "-rulesets",
+                "java-basic,java-braces,java-clone,java-codesize,java-comments,java-controversial,java-design,java-empty,java-finalizers,java-imports,java-naming,java-optimizations", "-r", "${SCRATCH}/pmd-report.txt"
+  output 
+    stdout digest 0xda39a3ee5e6b4b0d3255bfef95601890afd80709,
+    "pmd-report.txt" digest(text) 0x88c2614582af525f50395c4f34efc47dee2205d1;
+
+description
+  short		"A source code analyzer for Java",
+  long		"pmd analyzes a list of Java classes for a range of source code problems",
+  copyright	"Copyright (c) 2003, InfoEther, LLC",
+  author	"Tom Copeland",
+  license	"BSD-style",
+  url		"https://pmd.github.io",
+  threads	"Externally single-threaded.  Internally multi-threaded; creating workers according to number of available processors.",
+  repeats	"Single iteration checks numerous sources file against 18 coding rules",
