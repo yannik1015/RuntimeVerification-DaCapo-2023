@@ -1,0 +1,108 @@
+diff '--color=auto' -ur ./build.gradle ../build/build.gradle
+--- ./build.gradle	2022-11-29 02:43:26.000000000 +0000
++++ ../build/build.gradle	2022-11-29 02:43:44.529476069 +0000
+@@ -149,13 +149,13 @@
+       project(':h2o-clustering')
+     ]
+ 
+-    rProjects = [
+-      project(':h2o-r')
+-    ]
+-
+-    pythonProjects = [
+-      project(':h2o-py')
+-    ]
++    // rProjects = [
++    //   project(':h2o-r')
++    // ]
++
++    // pythonProjects = [
++    //   project(':h2o-py')
++    // ]
+ 
+     // The project which need to be run under CI only
+     testNeedsCiProject = [
+@@ -262,9 +262,9 @@
+ 
+     // Publish artifacts - we should filter subproject in future but now apply publisher plugin
+     // to all projects
+-    if (project in publishedProjects) {
+-      apply from: "$rootDir/gradle/publish.gradle"
+-    }
++//    if (project in publishedProjects) {
++//      apply from: "$rootDir/gradle/publish.gradle"
++//    }
+ 
+     // Copy all jars and remove version number from the name
+     apply from: "$rootDir/gradle/copyJars.gradle"
+@@ -300,19 +300,19 @@
+         
+     }
+ 
+-    if (project in rProjects) {
+-        apply from: "$rootDir/gradle/r.gradle"
+-    }
+-
+-    if (project in pythonProjects) {
+-        apply from: "$rootDir/gradle/r.gradle"   // same plugins
+-    }
+-
+-    if (project in ubenchProjects) {
+-        if (project.hasProperty("doUBench") && project.doUBench == "true") {
+-            apply from: "$rootDir/gradle/ubench.gradle"
+-        }
+-    }
++    // if (project in rProjects) {
++    //     apply from: "$rootDir/gradle/r.gradle"
++    // }
++
++    // if (project in pythonProjects) {
++    //     apply from: "$rootDir/gradle/r.gradle"   // same plugins
++    // }
++
++    // if (project in ubenchProjects) {
++    //     if (project.hasProperty("doUBench") && project.doUBench == "true") {
++    //         apply from: "$rootDir/gradle/ubench.gradle"
++    //     }
++    // }
+ }
+ 
+ // Include support for S3 syncing
+diff '--color=auto' -ur ./h2o-algos/build.gradle ../build/h2o-algos/build.gradle
+--- ./h2o-algos/build.gradle	2022-11-29 02:43:26.000000000 +0000
++++ ../build/h2o-algos/build.gradle	2022-11-29 02:43:44.533476065 +0000
+@@ -53,7 +53,7 @@
+   testRuntimeOnly project(":${defaultWebserverModule}")
+   testCompileOnly "javax.servlet:javax.servlet-api:${servletApiVersion}"
+   
+-  jmh project(":${defaultWebserverModule}")
++  // jmh project(":${defaultWebserverModule}")
+ }
+ 
+ apply from: "${rootDir}/gradle/dataCheck.gradle"
+diff '--color=auto' -ur ./h2o-extensions/target-encoder/build.gradle ../build/h2o-extensions/target-encoder/build.gradle
+--- ./h2o-extensions/target-encoder/build.gradle	2022-11-29 02:43:27.000000000 +0000
++++ ../build/h2o-extensions/target-encoder/build.gradle	2022-11-29 02:43:44.533476065 +0000
+@@ -12,7 +12,7 @@
+     testImplementation 'com.pholser:junit-quickcheck-generators:0.9'
+     testRuntimeOnly project(":${defaultWebserverModule}")
+     
+-    jmh project(":${defaultWebserverModule}") 
++    // jmh project(":${defaultWebserverModule}") 
+ }
+ 
+ apply from: "${rootDir}/gradle/dataCheck.gradle"
+diff '--color=auto' -ur ./settings.gradle ../build/settings.gradle
+--- ./settings.gradle	2022-11-29 02:43:27.000000000 +0000
++++ ../build/settings.gradle	2022-11-29 02:43:44.533476065 +0000
+@@ -7,8 +7,8 @@
+ include 'h2o-algos'
+ include 'h2o-web'
+ include 'h2o-app'
+-include 'h2o-r'
+-include 'h2o-py'
++//include 'h2o-r'
++//include 'h2o-py'
+ include 'h2o-assemblies:main'
+ include 'h2o-assemblies:minimal'
+ include 'h2o-assemblies:steam'
