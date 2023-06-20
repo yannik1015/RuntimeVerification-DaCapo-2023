@@ -49,7 +49,9 @@
             <groupId>com.runtimeverification.rvmonitor</groupId>
             <artifactId>rv-monitor</artifactId>
             <!-- Allow any released (non-snapshot) RV-Monitor release >= 1.3 -->
-            <version>[1.3,)</version>
+            <version>RELEASE</version>
+	    <scope>system</scope>
+	    <systemPath>${basedir}/../rv-monitor/target/release/rv-monitor/lib/rv-monitor.jar</systemPath>
         </dependency>
         <!-- A runtime dependency, as JavaMOP uses AspectJ to compile agents. -->
         <dependency>
