@@ -1,6 +1,0 @@
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/BCCAgent.java
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/BCCCallback.java
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/Transformer.java
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/Rewriter.java
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/MethodAdaptor.java
-/home/yannik/Nextcloud/Runtime Verification/RuntimeVerification-DaCapo-2023/dacapobench/tools/analysis/bcc/src/main/java/org/dacapo/analysis/BCCAnalysis.java
