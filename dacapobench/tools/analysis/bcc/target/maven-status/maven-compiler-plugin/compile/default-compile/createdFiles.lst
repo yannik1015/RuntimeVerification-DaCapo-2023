@@ -1,0 +1,8 @@
+org/dacapo/analysis/Rewriter$ClassAdapter.class
+org/dacapo/analysis/BCCCallback.class
+org/dacapo/analysis/Rewriter$MethodAdapter.class
+org/dacapo/analysis/BCCAnalysis.class
+org/dacapo/analysis/Transformer.class
+org/dacapo/analysis/MethodAdaptor.class
+org/dacapo/analysis/BCCAgent.class
+org/dacapo/analysis/Rewriter.class
