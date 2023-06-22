@@ -9,3 +9,5 @@ scratch
 ajcore.*.txt
 aj-files
 .idea
+dacapobench/benchmarks/DaCapo.iml
+*.jar
