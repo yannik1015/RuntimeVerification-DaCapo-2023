@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# These benchmarks will not be run as we noticed them to not work
 ignore_benchmarks=("tomcat" "tradebeans")
 
 command_pid=0
@@ -32,7 +33,7 @@ function is_in_ignore() {
 }
 
 
-output_benchmark_list=$(java -jar weaved-dacapo-9.12-MR1-bach.jar -l)
+output_benchmark_list=$(java -cp dacapo-9.12-MR1-bach.jar Harness -l)
 
 read -a benchmarks <<< "$output_benchmark_list"
 
@@ -41,8 +42,10 @@ for benchmark in "${benchmarks[@]}"; do
         continue
     else
         echo -e "\n\nNow running $benchmark\n===================================\n"
-        java -jar weaved-dacapo-9.12-MR1-bach.jar $benchmark &
+        java -cp dacapo-9.12-MR1-bach.jar Harness $benchmark &
         command_pid=$!
         wait $command_pid
     fi
 done
+
+# ToDo: Add final summary weather or not any errors happend and if all benchmarks passed
