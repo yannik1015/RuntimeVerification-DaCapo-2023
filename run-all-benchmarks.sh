@@ -23,7 +23,6 @@ function is_in_ignore() {
     local benchmark_to_test=$1
 
     for element in "${ignore_benchmarks[@]}"; do
-        # echo "element $element benchmark_to_test $benchmark_to_test"
         if [ "$benchmark_to_test" = "$element" ]; then
             return 0
         fi
