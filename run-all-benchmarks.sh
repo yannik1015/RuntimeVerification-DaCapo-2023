@@ -33,6 +33,7 @@ function is_in_ignore() {
 }
 
 
+weave_type=$1
 output_benchmark_list=$(java -cp dacapo-9.12-MR1-bach.jar Harness -l)
 
 read -a benchmarks <<< "$output_benchmark_list"
@@ -41,11 +42,24 @@ for benchmark in "${benchmarks[@]}"; do
     if is_in_ignore "$benchmark"; then
         continue
     else
-        echo -e "\n\nNow running $benchmark\n===================================\n"
-        java -cp dacapo-9.12-MR1-bach.jar Harness $benchmark &
-        command_pid=$!
-        wait $command_pid
+        if [ "$weave_type" = "aspectj" ]; then
+            echo -e "\n\nNow running $benchmark instrumented using aspectj\n===================================\n"
+            java -cp weaved-dacapo-9.12-MR1-bach.jar:$(pwd)/rv-monitor/target/release/rv-monitor/lib/rv-monitor-rt.jar:/usr/share/java/aspectjrt.jar Harness $benchmark &
+            command_pid=$!
+            wait $command_pid
+        elif [ "$weave_type" = "agent" ]; then
+            echo -e "\n\nNow running $benchmark instrumented using a Java agent\n===================================\n"
+            java -cp dacapo-9.12-MR1-bach.jar:/usr/share/java/aspectjweaver.jar:$(pwd)/rv-monitor/target/release/rv-monitor/lib/rv-monitor-rt.jar -javaagent:JavaMopAgent.jar Harness $benchmark &
+            command_pid=$!
+            wait $command_pid
+        else
+            echo "Provide the type of weaving to be used [agent, aspectj]"
+            echo -e "\n\nNow running $benchmark without instrumentation\n===================================\n"
+            java -cp dacapo-9.12-MR1-bach.jar Harness $benchmark &
+            exit 1
+        fi
+        
     fi
 done
 
-# ToDo: Add final summary weather or not any errors happend and if all benchmarks passed
+# ToDo: Add final summary weather or not any errors happend and if all benchmarks passed maybe in what time
