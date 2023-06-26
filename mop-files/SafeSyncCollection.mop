@@ -38,8 +38,3 @@ SafeSyncCollection(Object c, Iterator iter) {
 	     "or Iterator used without lock on the synchronized collection!");
 	}
 }
-
-
-
-
-

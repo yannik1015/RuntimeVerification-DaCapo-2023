@@ -43,10 +43,3 @@ full-binding UnsafeMapIterator(Map map, Collection c, Iterator i){
             "a collection created from it.");
 	}
 }
-
-
-
-
-
-
-
