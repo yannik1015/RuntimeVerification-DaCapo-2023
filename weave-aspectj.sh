@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# ToDo Check existence of dacapo.jar and download it if needed
-
 # Generate .aj and .rmv files
 mkdir aj-files 2>/dev/null
 rm aj-files/* 2>/dev/null
