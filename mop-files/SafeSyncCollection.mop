@@ -34,7 +34,7 @@ SafeSyncCollection(Object c, Iterator iter) {
 	ere : (sync asyncCreateIter) | (sync syncCreateIter accessIter)
 
 	@match{
-	    System.err.println("Created unsynchronized iterator on a collection" +
+	    System.err.println("[SafeSyncCollection] - Created unsynchronized iterator on a collection " +
 	     "or Iterator used without lock on the synchronized collection!");
 	}
 }
