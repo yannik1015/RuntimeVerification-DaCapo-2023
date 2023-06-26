@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # These benchmarks will not be run as we noticed them to not work
-ignore_benchmarks=("tomcat" "tradebeans", "tradesoap")
+ignore_benchmarks=("tomcat" "tradebeans" "tradesoap" "tradebeans")
 
 command_pid=0
 # Function to handle Ctrl+C (SIGINT)
