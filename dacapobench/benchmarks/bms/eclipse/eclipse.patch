@@ -1,9 +1,0 @@
---- bundles.info	2022-09-16 23:10:01.598628864 +0000
-+++ eclipse/configuration/org.eclipse.equinox.simpleconfigurator/bundles.info	2022-09-16 23:08:52.966625371 +0000
-@@ -1,5 +1,6 @@
- #encoding=UTF-8
- #version=1
-+org.dacapo.eclipse,1.0.0,plugins/org.dacapo.eclipse_1.0.0.jar,4,false
- com.google.gson,2.9.1,plugins/com.google.gson_2.9.1.jar,4,false
- com.ibm.icu,67.1.0,plugins/com.ibm.icu_67.1.0.jar,4,false
- com.jcraft.jsch,0.1.55.v20190404-1902,plugins/com.jcraft.jsch_0.1.55.v20190404-1902.jar,4,false
