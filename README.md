@@ -14,21 +14,21 @@ Tested on to run and compile on `java version "1.8.0_202"`
 ### 1. Download the benchmark jar
 You will need to download the benchmark file (`dacapo-9.12-MR1-bach.jar`) from https://www.dacapobench.org/ and place it in the project's root directory.
 
-### 2. Compile javamop
-```
-cd javamop
-
-mvn package
-```
-Add `javamop/target/release/javamop/javamop/bin` to your PATH.
-
-### 3. Compile rv-monitor
+### 2. Compile rv-monitor
 ```
 cd rv-monitor
 
 mvn package
 ```
 Add `rv-monitor/target/release/rv-monitor/bin` to your PATH.
+
+### 3. Compile javamop
+```
+cd javamop
+
+mvn package
+```
+Add `javamop/target/release/javamop/javamop/bin` to your PATH.
 
 ### 4. Miscellaneous
 
