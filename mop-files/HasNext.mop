@@ -1,33 +1,39 @@
-// Copyright (c) 2002-now JavaMOP Team. All Rights Reserved.
+// Copyright (c) 2002-now JavaMOP Team. All Rights Reserved. Modified by Yannik Zeier.
 package mop;
 
 import java.io.*;
 import java.util.*;
 
-// This property specifies that a program 
-// always calls the hasnext method  before 
-// the next method of an iterator. 
-// It is monitored for the pattern fail 
-// condition.  This property is borrowed 
-// from tracematches (see ECOOP'07 
-// http://abc.comlab.ox.ac.uk/papers)
+// This property specifies that a program does
+// not call the hasnext method before the next
+// method of an iterator, or that the hasnext
+// method does not return true.
+// This property is borrowed from tracematches
+// (see ECOOP'07 http://abc.comlab.ox.ac.uk/papers)
 
-HasNext(Iterator i) {
-	event hasnext after(Iterator i) : 
-              call(* Iterator.hasNext()) 
-              && target(i) {}
-	event next before(Iterator i) : 
-              call(* Iterator.next()) 
-              && target(i) {}
+full-binding HasNext(Iterator i) {
+   event hasnexttrue after(Iterator i) returning(boolean ret):
+      call(boolean Iterator.hasNext()) && target(i) && condition(ret) { }
+   event next before(Iterator i) :
+      call(* Iterator.next()) && target(i) {}
 
-	ere : (hasnext hasnext* next)*
+   fsm :
+     start [
+        next -> unsafe
+        hasnexttrue -> safe
+     ]
+     safe [
+        next -> start
+        hasnexttrue -> safe
+     ]
+     unsafe [
+        next -> unsafe
+        hasnexttrue -> safe
+     ]
 
-	@fail {
-	  System.err.println(
-             "! hasNext() has not been called"
-           + " before calling next() for an" 
-           + " iterator");
-          __RESET;
-	}
+     alias match = unsafe
+
+   @match {
+      System.err.println("next called without hasNext returning true!");
+   }
 }
-

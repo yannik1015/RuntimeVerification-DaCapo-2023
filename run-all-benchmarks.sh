@@ -55,7 +55,6 @@ for benchmark in "${benchmarks[@]}"; do
             echo "Provide the type of weaving to be used [agent, aspectj]"
             echo -e "\n\nNow running $benchmark without instrumentation\n===================================\n"
             java -cp dacapo-9.12-MR1-bach.jar Harness $benchmark &
-            exit 1
         fi
     fi
 done
