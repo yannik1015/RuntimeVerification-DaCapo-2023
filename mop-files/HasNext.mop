@@ -34,6 +34,6 @@ full-binding HasNext(Iterator i) {
      alias match = unsafe
 
    @match {
-      System.err.println("next called without hasNext returning true!");
+      System.err.println("next called without hasNext returning true before!");
    }
 }
