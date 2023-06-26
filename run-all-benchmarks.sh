@@ -58,5 +58,3 @@ for benchmark in "${benchmarks[@]}"; do
         fi
     fi
 done
-
-# ToDo: Add final summary weather or not any errors happend and if all benchmarks passed maybe in what time
