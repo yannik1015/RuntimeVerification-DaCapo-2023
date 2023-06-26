@@ -6,7 +6,7 @@
 mkdir aj-files 2>/dev/null
 rm -r aj-files/* 2>/dev/null
 javamop -v -merge -d aj-files mop-files/*
-mv mop-files/*.rvm aj-files/   
+mv mop-files/*.rvm aj-files/
 
 # Generate monitor classes from the .rvm files
 export CLASSPATH=$(pwd)/rv-monitor/target/release/rv-monitor/lib/rv-monitor-rt.jar:/usr/share/java/aspectjrt.jar:/usr/share/java/aspectjtools.jar
