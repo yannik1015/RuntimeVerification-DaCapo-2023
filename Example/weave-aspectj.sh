@@ -7,10 +7,11 @@ jar cfm hasNext.jar manifest.txt HasNext_1.class
 # Generate .aj and .rmv files
 mkdir aj-files 2>/dev/null
 rm aj-files/* 2>/dev/null
-javamop -v -d aj-files/ mop-files/*
+javamop -merge -v -d aj-files/ mop-files/*
+mv mop-files/*.rvm aj-files/   
 
 # Generate monitor classes from the .rvm files
-rv-monitor aj-files/*.rvm -d aj-files
+rv-monitor -merge aj-files/*.rvm -d aj-files
 
 # Compile monitor classes
 export CLASSPATH=$(pwd)/../rv-monitor/target/release/rv-monitor/lib/rv-monitor-rt.jar
